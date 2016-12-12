@@ -13,17 +13,18 @@ void loop() {
   int valx2=analogRead(3);
   int valy2=analogRead(4);
   int valz2=analogRead(5);
-	float gx1=((float)valx1/1023*5-1.65)/0.66;
-	float gy1=((float)valy1/1023*5-1.65)/0.66;
-	float gz1=((float)valz1/1023*5-1.65)/0.66;
+	float gx1=((float)valx1/1023*5-2.50);
+	float gy1=((float)valy1/1023*5-2.50);
+	float gz1=((float)valz1/1023*5-2.50);
   float gx2=((float)valx2/1023*5-2.50);
   float gy2=((float)valy2/1023*5-2.50);
   float gz2=((float)valz2/1023*5-2.50);
-	float pitch1=atan(-gy1/sqrt(square(gx1)+square(gz1)))/M_PI*180;
-	float roll1=atan(-gx1/gz1)/M_PI*180;
+	float pitch1=atan(gx1/sqrt(square(gy1)+square(gz1)))/M_PI*180;
+	float roll1=atan(-gy1/gz1)/M_PI*180;
   float pitch2=atan(gx2/sqrt(square(gy2)+square(gz2)))/M_PI*180;
   float roll2=atan(-gy2/gz2)/M_PI*180;
-   /*
+  float pitchnew1=(pitch1-3);
+  float pitchnew2=(pitch2+2.1);
    /*
   Serial.print(gx);
   Serial.print(",");
@@ -39,15 +40,16 @@ void loop() {
   Serial.print(",");
   Serial.println(roll2);
   */
-  Serial.print(pitch1);
+
+  Serial.print(pitchnew1);
   Serial.print(",");
-  Serial.print(pitch2);
+  Serial.print(pitchnew2);
   Serial.print(",");
-  Serial.print(pitch1-pitch2+0.077778/2*pitch2);
+  Serial.print(pitchnew1-pitchnew2+0.06875*pitchnew2);
   Serial.print(",");
   Serial.print(roll1);
-  Serial.print(",");
-  Serial.print(roll2);
+  Serial.print(",")
+;  Serial.print(roll2);
   Serial.print(",");
   Serial.println(roll1-roll2);
 
