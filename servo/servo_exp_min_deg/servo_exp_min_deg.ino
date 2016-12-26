@@ -19,6 +19,11 @@ const byte SUB_SP_COMMND = 0x02;
 const byte ICS_ID_CMD = 0xE0;
 const byte SUB_ID_COMMND = 0x01;
 
+unsigned short sv_pos=7500;
+boolean pushFlg=false;
+boolean pushIgn=false;
+unsigned long t_push=0;
+
 void servoMove(int x, int y){ 
   /*
    * 3500...7500...11500
@@ -149,6 +154,9 @@ void ics_set_id(byte id){
 }
 
 void setup (){
+  //サーボ角インクリメント用スイッチ
+  pinMode(7, INPUT_PULLUP);
+
   //シリアルモードに切り替える
   pinMode(1, OUTPUT);
   digitalWrite(1, HIGH);
@@ -165,15 +173,35 @@ void setup (){
 }
 
 void loop (){ 
+	//1秒以上押し続けたときのみ処理を実行する
+	if(!digitalRead(7)){ //pullupされている。押したときLOW
+		if(pushIgn){
+			//処理実行後も押し続けた場合は何もしない
+		}else{
+			if(pushFlg){
+				if(millis()-t_push>1000){
+					//確定・処理実行
+					sv_pos++;
+					pushFlg=false;
+					pushIgn=true;
+				}
+			}else{
+				t_push=millis();
+				pushFlg=true;
+			}
+		}
+
+	}else{
+    pushFlg=false;
+		pushIgn=false;
+	}
+
   //サーボ制御
   //ics_set_id(0x01);
   //delay(200);
   //idを変えるときは設定後にディレイを入れるとうまくいく
   //servoMove(outbuf[0], outbuf[1]);
   //delay(200);
-  ics_set_pos(0, 7500);
-  delay(1000);
-  ics_set_pos(0, 7501);
-  delay(1000);
+  ics_set_pos(0, sv_pos);
    
 }
