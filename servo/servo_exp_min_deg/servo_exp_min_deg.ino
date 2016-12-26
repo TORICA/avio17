@@ -181,7 +181,7 @@ void loop (){
 			if(pushFlg){
 				if(millis()-t_push>1000){
 					//確定・処理実行
-					sv_pos++;
+					sv_pos+=10;
 					pushFlg=false;
 					pushIgn=true;
 				}
