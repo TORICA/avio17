@@ -9,7 +9,7 @@ void setup()
   SPI.begin();
   delay(5);
   Serial.println(readLPS25H(0x0F),HEX );//通信確認正常ならば0ｘBDを受信
-  writeLPS25H( 0x20, 0xC4);//パワーオン、1Hzを設定
+  writeLPS25H( 0x20, 0xC4);//パワーオン、25Hzを設定
   writeLPS25H( 0x10, 0x03);
 }
 
@@ -36,7 +36,7 @@ void loop()
   T=T-5;
  T=15;
   a=pow(1013.25/P,1/5.257);
-  X=(a-1.0)*(T+273.15)/0.0065-20;
+  X=(a-1.0)*(T+273.15)/0.0065+35;
 
   /*
   Serial.print("Pressure(hPa)=");
