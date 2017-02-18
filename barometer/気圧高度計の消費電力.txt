@@ -1,0 +1,8 @@
+arduino pro mini 8MHz
+本体消費電力	7mA		http://hsh.s2jp.com/2011/10/arduino-power-consumption/
+SDC		30mA			http://s2jp.com/2015/04/arduino-sdcard/
+LPS25H		4mA			http://akizukidenshi.com/catalog/g/gK-08338/
+合計		41mA
+
+LiPo 3.7V 380mAh		http://amzn.asia/c6zL47A
+連続稼働時間　9.3 hr.
