@@ -182,6 +182,7 @@ void loop (){
 				if(millis()-t_push>1000){
 					//確定・処理実行
 					sv_pos+=10;
+          tone(11, 440, 100);
 					pushFlg=false;
 					pushIgn=true;
 				}
@@ -203,5 +204,5 @@ void loop (){
   //servoMove(outbuf[0], outbuf[1]);
   //delay(200);
   ics_set_pos(0, sv_pos);
-   
+  Serial.println(sv_pos);
 }
