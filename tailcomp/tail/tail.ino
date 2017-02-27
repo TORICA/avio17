@@ -39,12 +39,18 @@ void loop() {
   Serial.print(pitch2);
   Serial.print(",");
   Serial.println(roll2);
+<<<<<<< HEAD
 
 
+=======
+  */
+/*
+>>>>>>> 8e9e934b9118c8b8d554a29d350c3672b2402335
   Serial.print(pitchnew1);
   Serial.print(",");
   Serial.print(pitchnew2);
   Serial.print(",");
+<<<<<<< HEAD
 */
   Serial.print(pitchnew1-pitchnew2+0.06875*pitchnew2);
   Serial.print(",");
@@ -58,3 +64,18 @@ void loop() {
 
 }
 
+=======
+  */
+ 
+  Serial.print(pitchnew1-pitchnew2+0.06875*pitchnew2);
+  Serial.print(",");
+  /*
+  Serial.print(roll1);
+  Serial.print(","); 
+  Serial.print(roll2);
+  Serial.print(",");
+  */
+  Serial.println(roll1-roll2);
+
+}
+>>>>>>> 8e9e934b9118c8b8d554a29d350c3672b2402335
