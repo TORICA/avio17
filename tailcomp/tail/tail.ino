@@ -23,8 +23,8 @@ void loop() {
 	float roll1=atan(-gy1/gz1)/M_PI*180;
   float pitch2=atan(gx2/sqrt(square(gy2)+square(gz2)))/M_PI*180;
   float roll2=atan(-gy2/gz2)/M_PI*180;
-  float pitchnew1=(pitch1-3);
-  float pitchnew2=(pitch2+2.1);
+  float pitchnew1=(pitch1+2.2);
+  float pitchnew2=(pitch2-3.6);
    /*
   Serial.print(gx);
   Serial.print(",");
@@ -39,18 +39,22 @@ void loop() {
   Serial.print(pitch2);
   Serial.print(",");
   Serial.println(roll2);
-  */
+
 
   Serial.print(pitchnew1);
   Serial.print(",");
   Serial.print(pitchnew2);
   Serial.print(",");
+*/
   Serial.print(pitchnew1-pitchnew2+0.06875*pitchnew2);
   Serial.print(",");
+/*
   Serial.print(roll1);
-  Serial.print(",")
-;  Serial.print(roll2);
   Serial.print(",");
+  Serial.print(roll2);
+  Serial.print(",");
+*/
   Serial.println(roll1-roll2);
 
 }
+
