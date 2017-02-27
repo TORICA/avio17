@@ -40,17 +40,21 @@ void loop() {
   Serial.print(",");
   Serial.println(roll2);
   */
-
+/*
   Serial.print(pitchnew1);
   Serial.print(",");
   Serial.print(pitchnew2);
   Serial.print(",");
+  */
+ 
   Serial.print(pitchnew1-pitchnew2+0.06875*pitchnew2);
   Serial.print(",");
+  /*
   Serial.print(roll1);
-  Serial.print(",")
-;  Serial.print(roll2);
+  Serial.print(","); 
+  Serial.print(roll2);
   Serial.print(",");
+  */
   Serial.println(roll1-roll2);
 
 }
