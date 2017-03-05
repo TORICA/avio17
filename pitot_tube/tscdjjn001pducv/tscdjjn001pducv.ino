@@ -54,5 +54,5 @@ double myLPF(double val){
 }
 
 double calcV(double adc_val){
-	return 3.85+sqrt(14.8-7.32*adc_val)/3.66;
+	return (3.85+sqrt(14.8-7.32*adc_val))/3.66;
 }
