@@ -2,7 +2,9 @@
 
 unsigned long  t_0;
 
-const int OFFSET=28;
+const int OFFSET=35;//[ADB_count]
+const int SEN=1;//[V/Pa]
+const double RHO=1.205;//[kg/m^3]
 
 void setup() {
   // put your setup code here, to run once:
@@ -15,6 +17,8 @@ void loop() {
   Serial.print(myLPF(reading));
   Serial.print(',');
   Serial.println(reading);
+
+   //double v= sqrt(abs(2*((int)val-OFFSET)/SEN/RHO));
 
   /*
   unsigned long t_now=millis();
@@ -47,4 +51,8 @@ double myLPF(double val){
   //Serial.println("");
   
   return ((float)sum)/((float)samplingnum);
+}
+
+double calcV(double adc_val){
+	return 3.85+sqrt(14.8-7.32*adc_val)/3.66;
 }
