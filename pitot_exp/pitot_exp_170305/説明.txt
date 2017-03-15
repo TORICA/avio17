@@ -1,0 +1,50 @@
+ドライヤーとPPの円筒、ストローを束ねた整流子を使って簡易的な校正を行った。
+
+使用センサ：tscdjjn001pducv
+フィルタ：
+	ハードウェア：RC_LPF
+					一段目:R=1kΩ,C=10uF
+					二段目:R=500Ω,C=10uF
+	ソフトウェア：移動平均
+
+const int samplingnum=40;
+double vals[samplingnum];
+int count=0;
+double myLPF(double val){
+  
+  vals[count]=val;
+  
+  if(count<=samplingnum-2){
+    count++;
+  }else{
+    count=0;
+  }
+  double sum=0.0;
+  
+  for(int i=0;i<=samplingnum-1;i++){
+    sum+=vals[i];
+  }
+  
+  return ((float)sum)/((float)samplingnum);
+}
+
+スライダックにドライヤーを接続して風速の調整ができるようにした。
+事前にスライダックのつまみと風速の対応表を作成し、後のピトー管による測定時に使用した。
+10bitADC(0-5[V])の出力を5つの出力について測定して記録した。
+
+[V],[m/s],[ADC]
+10,X,X
+20,0.0,3,3.0
+30,2.0
+40,3.1,14.0
+50,4.2
+60,5.5,30.5
+70,6.4
+80,7.5,65.0
+90,8.1
+100,8.7,112
+
+最小二乗法により二次の近似式を求めた（y切片=0、x[m/s],y[ADC出力]）
+	y=1.8286x^2-3.8488x
+xについて解くと
+	x=(3.85-sqrt(14.8-7.32y))/3.66
