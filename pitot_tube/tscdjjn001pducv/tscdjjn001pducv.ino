@@ -2,9 +2,10 @@
 
 unsigned long  t_0;
 
-const int OFFSET=35;//[ADB_count]
+const int OFFSET=27;//[ADB_count]
 const int SEN=1;//[V/Pa]
 const double RHO=1.205;//[kg/m^3]
+const double K=0.64;
 
 void setup() {
   // put your setup code here, to run once:
@@ -14,9 +15,10 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   double reading=analogRead(0)-OFFSET;
-  Serial.print(myLPF(reading));
-  Serial.print(',');
-  Serial.println(reading);
+  //Serial.print(myLPF(reading));
+  //Serial.print(',');
+  //Serial.println(reading);
+  Serial.println(calcV(myLPF(reading)));
 
    //double v= sqrt(abs(2*((int)val-OFFSET)/SEN/RHO));
 
@@ -53,6 +55,13 @@ double myLPF(double val){
   return ((float)sum)/((float)samplingnum);
 }
 
-double calcV(double adc_val){
+/*double calcV(double adc_val){
 	return (3.85+sqrt(14.8-7.32*adc_val))/3.66;
+}*/
+double calcV(double adc_val){
+	if(adc_val<0){
+		return 0;
+	}else{
+		return sqrt(adc_val*K);
+	}
 }
