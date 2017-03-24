@@ -2,19 +2,30 @@
 
 unsigned long  t_0;
 
-const int OFFSET=27;//[ADB_count]
+//const int OFFSET=27;//[ADB_count]
 const int SEN=1;//[V/Pa]
 const double RHO=1.205;//[kg/m^3]
-const double K=0.64;
+const double K=0.53;
+
+const int initNum=10;
+int initVal=0;
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
+  delay(500);
+
+  //オフセットを取得
+  for(int i=0;i<initNum;i++){
+  	initVal+=analogRead(0);
+  }
+  initVal=initVal/initNum;
+  
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  double reading=analogRead(0)-OFFSET;
+  double reading=analogRead(0)-initVal;
   //Serial.print(myLPF(reading));
   //Serial.print(',');
   //Serial.println(reading);
