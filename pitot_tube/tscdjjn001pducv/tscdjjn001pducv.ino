@@ -7,20 +7,24 @@ const int SEN=1;//[V/Pa]
 const double RHO=1.205;//[kg/m^3]
 const double K=0.53;
 
-const int initNum=10;
+const int initNum=40;
 int initVal=0;
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
-  delay(500);
+  Serial.println();
+  Serial.println("#Initializing...");
+  delay(1000);
 
   //オフセットを取得
   for(int i=0;i<initNum;i++){
   	initVal+=analogRead(0);
   }
   initVal=initVal/initNum;
-  
+  Serial.print("#initVal=");
+  Serial.println(initVal);
+  Serial.println("#READY");
 }
 
 void loop() {
