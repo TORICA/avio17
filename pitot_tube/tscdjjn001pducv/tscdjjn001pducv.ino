@@ -8,7 +8,7 @@ const double RHO=1.205;//[kg/m^3]
 const double K=0.53;
 
 const int initNum=40;
-int initVal=0;
+double initVal=0;
 
 void setup() {
   // put your setup code here, to run once:
