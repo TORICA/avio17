@@ -1,16 +1,23 @@
 //tail.ino
 
-int sw;
-int val;
+int sw1;
+int sw2;
+int val1;
+int val2;
 float alpha1;
+float beta1;
 
 void setup() {
   // put your setup code here, to run once:
 	Serial.begin(9600);
  pinMode(3,INPUT_PULLUP);
- sw=0;
- val=1;
+ pinMode(4,INPUT_PULLUP);
+ sw1=0;
+ sw2=0;
+ val1=1;
+ val2=1;
  alpha1=0;
+ beta1=0;
 }
 
 void loop() {
@@ -18,7 +25,10 @@ void loop() {
   
   float p1;
   float p2;
+  float p3;
+  float p4;
   float alpha;
+  float beta;
 	int valx1=analogRead(0);
 	int valy1=analogRead(1);
 	int valz1=analogRead(2);
@@ -36,25 +46,43 @@ void loop() {
   float pitch2=atan(gx2/sqrt(square(gy2)+square(gz2)))/M_PI*180;
   float roll2=atan(-gy2/gz2)/M_PI*180;
   float pitchnew1=(pitch1-alpha1);
-  float pitchnew2=(pitch2-3);
-  if(val<digitalRead(3)){
-    sw+=1;
+  float pitchnew2=(pitch2-beta1);
+  if(val1<digitalRead(3)){
+    sw1+=1;
   }
   
-  if(sw==1){
+  if(sw1==1){
     p1=pitchnew1;
   }
   
-  if(sw==2){
+  if(sw1==2){
     p2=pitchnew1;
     alpha=(p1+p2)/2;
   alpha1=alpha;
    p1=0;
    p2=0;
    alpha=0; 
-  sw=0;
+   sw1=0;
    }
-  val=digitalRead(3);
+   if(val2<digitalRead(4)){
+    sw2+=1;
+  }
+  
+  if(sw2==1){
+    p3=pitchnew2;
+  }
+  
+  if(sw2==2){
+    p4=pitchnew2;
+    beta=(p3+p4)/2;
+   beta1=beta;
+   p3=0;
+   p4=0;
+   beta=0; 
+   sw2=0;
+   }
+  val1=digitalRead(3);
+  val2=digitalRead(4);
   
    /*
   Serial.print(gx);
@@ -78,16 +106,16 @@ void loop() {
   Serial.print(",");
  
  
-  Serial.print(pitchnew1-pitchnew2);
-  Serial.print(",");
-  /*
+  Serial.println(pitchnew1-pitchnew2);
+/*  Serial.print(",");
+  
   Serial.print(roll1);
   Serial.print(","); 
   Serial.print(roll2);
   Serial.print(",");
-  */
+  
   Serial.print(sw);
   Serial.print(",");
   Serial.println(roll1-roll2);
-
+*/
 }
