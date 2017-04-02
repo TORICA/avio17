@@ -27,7 +27,7 @@
  */
 #include <SPI.h>
 #include <Wire.h>   
-#include <Adafruit_GFX.h>
+//#include <Adafruit_GFX.h>
 //#include <Adafruit_PCD8544.h>
 
 // Using NOKIA 5110 monochrome 84 x 48 pixel display
@@ -199,7 +199,18 @@
 
 #define AHRS true         // set to false for basic data read
 #define SerialDebug true   // set to true to get Serial output for debugging
-
+#define LED_PIN1 2
+#define LED_PIN4 3
+#define LED_PIN5 4
+#define LED_PIN6 5
+#define LED_PIN9 6
+#define LED_PIN10 7
+#define LED_PIN13 8
+#define LED_PIN14 9
+#define LED_PIN15 10
+#define LED_PIN18 11
+#define LED_PIN19 12
+#define LED_PIN20 13
 // Set initial input parameters
 enum Ascale {
   AFS_2G = 0,
@@ -279,7 +290,18 @@ void setup()
   digitalWrite(intPin, LOW);
   pinMode(myLed, OUTPUT);
   digitalWrite(myLed, HIGH);
-  
+  pinMode(LED_PIN1, OUTPUT);
+  pinMode(LED_PIN4, OUTPUT);
+  pinMode(LED_PIN5, OUTPUT);
+  pinMode(LED_PIN6, OUTPUT);
+  pinMode(LED_PIN9, OUTPUT);
+  pinMode(LED_PIN10, OUTPUT);
+  pinMode(LED_PIN13, OUTPUT);
+  pinMode(LED_PIN14, OUTPUT);
+  pinMode(LED_PIN15, OUTPUT);
+  pinMode(LED_PIN18, OUTPUT);
+  pinMode(LED_PIN19, OUTPUT);
+  pinMode(LED_PIN20, OUTPUT);
 /*  display.begin(); // Ini8ialize the display
   display.setContrast(58); // Set the contrast
   
@@ -414,6 +436,7 @@ void loop()
     mx = (float)magCount[0]*mRes*magCalibration[0] - magbias[0];  // get actual magnetometer value, this depends on scale being set
     my = (float)magCount[1]*mRes*magCalibration[1] - magbias[1];  
     mz = (float)magCount[2]*mRes*magCalibration[2] - magbias[2];   
+    
   }
   
   Now = micros();
@@ -458,6 +481,7 @@ void loop()
     temperature = ((float) tempCount) / 333.87 + 21.0; // Temperature in degrees Centigrade
    // Print temperature in degrees Centigrade      
     Serial.print("Temperature is ");  Serial.print(temperature, 1);  Serial.println(" degrees C"); // Print T values to tenths of s degree C
+    
     }
     
 //    display.clearDisplay();     
@@ -581,9 +605,163 @@ void loop()
     sum = 0;    
     }
     }
-
+if (pitch>25) {
+  driveLED(1);
+} 
+else if (pitch>=20) {
+driveLED(2);
+} 
+else if (pitch>=15){
+ driveLED(3);
 }
-
+else if (pitch>=10){
+ driveLED(4);
+}
+else if (pitch>=5){
+ driveLED(5);
+} 
+else if (pitch>=0){
+  driveLED(6);
+}
+ else if(pitch>=-5){
+  driveLED(7);
+ }
+ else if(pitch>=-10){
+  driveLED(8);
+}
+else if (pitch>=-15){
+  driveLED(9);
+}
+else if (pitch>=-20){
+  driveLED(10);
+}
+else if (pitch>=-25){
+  driveLED(11);
+}
+else{
+  driveLED(12);
+}
+}
+void driveLED(int led) {
+      digitalWrite(LED_PIN1, LOW);
+      digitalWrite(LED_PIN4, HIGH);
+      digitalWrite(LED_PIN5, HIGH);
+      digitalWrite(LED_PIN6, LOW);
+      digitalWrite(LED_PIN9,HIGH);
+      digitalWrite(LED_PIN10,HIGH); 
+      digitalWrite(LED_PIN13,HIGH);
+      digitalWrite(LED_PIN14,HIGH);
+      digitalWrite(LED_PIN15,LOW);
+      digitalWrite(LED_PIN18,HIGH);
+      digitalWrite(LED_PIN19,HIGH);
+      digitalWrite(LED_PIN20,LOW);
+      
+  switch (led) {
+     case 1://a~fを光らせる 
+     digitalWrite(LED_PIN1, HIGH);
+     digitalWrite(LED_PIN4, LOW);
+     digitalWrite(LED_PIN5, HIGH);
+     digitalWrite(LED_PIN4, HIGH);
+     digitalWrite(LED_PIN5, LOW);
+     digitalWrite(LED_PIN6,HIGH);
+     digitalWrite(LED_PIN9, LOW);
+     digitalWrite(LED_PIN10, HIGH);
+     digitalWrite(LED_PIN9, HIGH);
+     digitalWrite(LED_PIN10, LOW);
+     
+        break;
+    case 2://ｂ~ｆを光らせる
+     digitalWrite(LED_PIN4, LOW);
+     digitalWrite(LED_PIN5, HIGH);
+     digitalWrite(LED_PIN4, HIGH);
+     digitalWrite(LED_PIN5, LOW);
+     digitalWrite(LED_PIN6,HIGH);
+     digitalWrite(LED_PIN9, LOW);
+     digitalWrite(LED_PIN10, HIGH);
+     digitalWrite(LED_PIN9, HIGH);
+     digitalWrite(LED_PIN10, LOW);
+      break;
+      
+    case 3://c~fを光らせる
+     digitalWrite(LED_PIN4, HIGH);
+     digitalWrite(LED_PIN5, LOW);
+     digitalWrite(LED_PIN6,HIGH);
+     digitalWrite(LED_PIN9, LOW);
+     digitalWrite(LED_PIN10, HIGH);
+     digitalWrite(LED_PIN9, HIGH);
+     digitalWrite(LED_PIN10, LOW);
+      break;
+      
+    case 4://d~f
+     digitalWrite(LED_PIN6,HIGH);
+     digitalWrite(LED_PIN9, LOW);
+     digitalWrite(LED_PIN10, HIGH);
+     digitalWrite(LED_PIN9, HIGH);
+     digitalWrite(LED_PIN10, LOW);   
+      break;
+     
+    case 5://e~f
+     digitalWrite(LED_PIN9, LOW);
+     digitalWrite(LED_PIN10, HIGH);
+     digitalWrite(LED_PIN9, HIGH);
+     digitalWrite(LED_PIN10, LOW); 
+        break;
+    case 6://fを光らせる
+      digitalWrite(LED_PIN9, HIGH);
+      digitalWrite(LED_PIN10, LOW); 
+        break;
+  case 7://gを光らせる 
+        digitalWrite(LED_PIN13, LOW);
+        digitalWrite(LED_PIN14, HIGH);
+        break;
+  case 8: //g~h:
+        digitalWrite(LED_PIN13, LOW);
+        digitalWrite(LED_PIN14, HIGH);
+        digitalWrite(LED_PIN13,HIGH);
+        digitalWrite(LED_PIN14, LOW);
+        break;
+        
+  case 9: //g~i
+        digitalWrite(LED_PIN13, LOW);
+        digitalWrite(LED_PIN14, HIGH);
+        digitalWrite(LED_PIN13,HIGH);
+        digitalWrite(LED_PIN14, LOW);
+        digitalWrite(LED_PIN15,HIGH);
+        break;
+  case 10: //g~j:
+        digitalWrite(LED_PIN13, LOW);
+        digitalWrite(LED_PIN14, HIGH);
+        digitalWrite(LED_PIN13,HIGH);
+        digitalWrite(LED_PIN14, LOW);
+        digitalWrite(LED_PIN15,HIGH);
+        digitalWrite(LED_PIN18, LOW);
+        digitalWrite(LED_PIN19, HIGH);
+        break;
+  case 11: //g^k
+        digitalWrite(LED_PIN18, HIGH);
+        digitalWrite(LED_PIN19, LOW);
+        digitalWrite(LED_PIN13, LOW);
+        digitalWrite(LED_PIN14, HIGH);
+        digitalWrite(LED_PIN13,HIGH);
+        digitalWrite(LED_PIN14, LOW);
+        digitalWrite(LED_PIN15,HIGH);
+        digitalWrite(LED_PIN18, LOW);
+        digitalWrite(LED_PIN19, HIGH);
+        break;
+  case 12: //g~l
+        digitalWrite(LED_PIN18, HIGH);
+        digitalWrite(LED_PIN19, LOW);
+        digitalWrite(LED_PIN13, LOW);
+        digitalWrite(LED_PIN14, HIGH);
+        digitalWrite(LED_PIN13,HIGH);
+        digitalWrite(LED_PIN14, LOW);
+        digitalWrite(LED_PIN15,HIGH);
+        digitalWrite(LED_PIN18, LOW);
+        digitalWrite(LED_PIN19, HIGH);
+        digitalWrite(LED_PIN20,HIGH);
+        break;
+  }
+}
 //===================================================================================================================
 //====== Set of useful function to access acceleration. gyroscope, magnetometer, and temperature data
 //===================================================================================================================
