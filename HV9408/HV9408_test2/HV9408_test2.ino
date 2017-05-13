@@ -18,7 +18,7 @@ void setup() {
 }
 
 void loop() {
-  unsigned long data=0b00000000000000000000000000000001;
+  unsigned long data=0b00000000000000011000000000000001;
 
   shiftOutHV9408(DI_PIN, CK_PIN, LE_PIN, data);
 }
