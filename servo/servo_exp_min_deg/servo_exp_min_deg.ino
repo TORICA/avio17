@@ -198,8 +198,8 @@ void loop (){
 	}
 
   //サーボ制御
-  //ics_set_id(0x01);
-  //delay(200);
+  ics_set_id(0x01);
+  delay(200);
   //idを変えるときは設定後にディレイを入れるとうまくいく
   //servoMove(outbuf[0], outbuf[1]);
   //delay(200);

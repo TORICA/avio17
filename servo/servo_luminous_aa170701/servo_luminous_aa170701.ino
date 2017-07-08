@@ -37,30 +37,74 @@ const int SV_H = 1;
 const int SV_V = 2;
 
 
-void servoMove(int js_h_val, int js_v_val){ 
+void servoMove(int js_h_val, int js_v_val){
+  /* 調整用数値 */
+  const int SV_V_L=8196;
+  const int SV_V_N=7812;
+  const int SV_V_R=7438;
+  const int SV_H_U=7114;
+  const int SV_H_N=7612;
+  const int SV_H_D=8092;
+   
   
    // 3500...7500...11500
    // -135...0...   135    [deg]
 
     // js_h_val 230...550...900 (down..neutral..up)
     // js_v_val 195...550...800 (right..neutral..left)
+
+
     
     //sv_h -8...0...8[deg]  7263..7500..7737
     //sv_v -8...0...8[deg]  7263..7500..7737
-   
+  
+  
   int sv_pos_H, sv_pos_V;
-  sv_pos_H = map(js_h_val,230,900,7737,7263);
-  if(sv_pos_H>7500) sv_pos_H=7500;
-  //sv_pos_V = map(js_v_val,195,800,6225,6699);
-  sv_pos_V=6462;
 
+/*  
+  sv_pos_H = map(js_h_val,230,900,8092,7114);
+  //if(sv_pos_H>7500) sv_pos_H=7500;
+  sv_pos_V = map(js_v_val,195,800,8427,9388);
+  //sv_pos_V=6462;
+*/
+
+
+/* JSのDZ対策　開始12*/
+    const int DZ = 100;
+  
+    if(js_h_val<=455+DZ && js_h_val>=455-DZ){
+      sv_pos_H=SV_H_N;
+    }else if(js_h_val>455+DZ){
+      sv_pos_H = map(js_h_val,455+DZ,900,SV_H_N,SV_H_U);
+    }else if(js_h_val<455-DZ){
+      sv_pos_H = map(js_h_val,230,455-DZ,SV_H_D,SV_H_N);
+    }
+  
+    if(js_v_val<=455+DZ && js_v_val>=455-DZ){
+      sv_pos_V=SV_V_N;
+    }else if(js_v_val>455+DZ){
+      sv_pos_V = map(js_v_val,455+DZ,880,SV_V_N,SV_V_L);
+    }else if(js_v_val<455-DZ){
+      sv_pos_V = map(js_v_val,210,455-DZ,SV_V_R,SV_V_N);
+    }
+/* JSのDZ対策　終了 */   
+
+  Serial.print(js_h_val);
+  Serial.print(",");
+  Serial.print(sv_pos_H);
+  Serial.print(",");
+  Serial.print(js_v_val);
+  Serial.print(",");
+  Serial.print(sv_pos_V);
+  Serial.print(",");
+/* 変換後の値をサーボに送信する */
   Serial.print(ics_set_pos(1,sv_pos_H,SV_H));
   Serial.print(",");
   Serial.println(ics_set_pos(2,sv_pos_V,SV_V));
 }
 
 
-///
+/// 
 /// 送受信する
 ///
 bool Synchronize(byte *txBuff, size_t txLength, byte *rxBuff, size_t rxLength, int svSel){
@@ -243,19 +287,21 @@ void setup (){
 }
 
 void loop (){
-  /*
-  //Serial.println(ics_set_pos(1,7600,SV_H));
-  Serial.println(ics_set_pos(2,6225,SV_V));
-  delay(500);
-  //Serial.println(ics_set_pos(1,7500,SV_H));
-  Serial.println(ics_set_pos(2,6699,SV_V));
-  delay(500);
-  */
   
-  //Serial.print(ics_set_pos(1,0,SV_H));
-  //Serial.print(",");
-  //Serial.println(ics_set_pos(2,0,SV_V));
-  //Serial.println(ics_set_pos(0,0));
+  //Serial.println(ics_set_pos(1,8092,SV_H));
+  //Serial.println(ics_set_pos(2,6225,SV_V));
+  //delay(500);
+  //Serial.println(ics_set_pos(1,8092,SV_H));
+  //Serial.println(ics_set_pos(2,6699,SV_V));
+  //delay(500);
+  /*
+  for(int i=0;i<=3;i++){
+    Serial.print(analogRead(i));
+    Serial.print(",");
+  }
+  Serial.print(ics_set_pos(1,0,SV_H));
+  Serial.print(",");
+  Serial.println(ics_set_pos(2,0,SV_V));
 
 /*
   for(int i=0;i<=3;i++){

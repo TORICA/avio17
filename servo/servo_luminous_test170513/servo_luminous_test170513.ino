@@ -217,22 +217,42 @@ void setup (){
 
   enRX();
 
-  ics_set_id(0);
+  //ics_set_id(1);
   delay(200);
 
-  ics_set_sp(0,127);
+  ics_set_sp(1,127);
+  delay(200);
 
-  ics_set_st(0,127);
+  ics_set_st(1,127);
 
   Serial.print ("Finished setup\n");
 }
 
+unsigned long t0=0;
+int iv=500;
 void loop (){
+  t0=millis();
+  while(millis()-t0<iv){
+    Serial.println(ics_set_pos(1,7182));
+  }t0=millis();
+  while(millis()-t0<iv){
+    Serial.println(ics_set_pos(1,6333));
+  }t0=millis();
+  while(millis()-t0<iv){
+    Serial.println(ics_set_pos(1,5668));
+  }
+  /*
+  Serial.println(ics_set_pos(1,7182));
+  delay(2000);
+  Serial.println(ics_set_pos(1,6333));
+  delay(2000);
+  Serial.println(ics_set_pos(1,5668));
+  delay(2000);
+  */
+  //7182,6333,5668
+  //Serial.println(ics_set_pos(1,8000));
+  //Serial.println(ics_set_pos(1,0));
+  //delay(4000);
+
   
-  Serial.println(ics_set_pos(0,7600));
-  delay(500);
-  Serial.println(ics_set_pos(0,7500));
-  delay(500);
-  
-  //Serial.println(ics_set_pos(0,0));
 }

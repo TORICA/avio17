@@ -169,7 +169,7 @@ void loop (){
   //ics_set_id(0);
   //delay(500);
   
-  ics_get_eeprom(0,eeprom);
+  ics_get_eeprom(1,eeprom);
   for(int i=0;i<66;i++){
     Serial.print(i<2?-1:i-1,DEC);
     Serial.print(":");
