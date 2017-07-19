@@ -1,7 +1,7 @@
-const int CK_PIN=5;  //Clock
-const int LE_PIN=7;  //Latch Enable
-const int DI_PIN=6;  //Data In
-const int OE_PIN=4;  //Output Enable
+const int CK_PIN=8;  //Clock
+const int LE_PIN=11;  //Latch Enable
+const int DI_PIN=10;  //Data In
+const int OE_PIN=9;  //Output Enable
 
 void setup() {
   /* HV9408用初期化処理　開始 */
@@ -18,9 +18,10 @@ void setup() {
 }
 
 void loop() {
-  unsigned long data=0b00000000000000011000000000000001;
+  unsigned long data=0b00011101010101010101010101010101;
 
   shiftOutHV9408(DI_PIN, CK_PIN, LE_PIN, data);
+  delay(1000);
 }
 
 /* dataの最下の桁がHV9408のHVOUT1に、最上の桁がHVOUT32に対応 */

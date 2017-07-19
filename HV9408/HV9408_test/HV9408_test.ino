@@ -1,7 +1,7 @@
-const int CK_PIN=5;  //Clock
-const int LE_PIN=7;  //Latch Enable
-const int DI_PIN=6;  //Data In
-const int OE_PIN=4;  //Output Enable
+const int CK_PIN=8;  //Clock
+const int LE_PIN=11;  //Latch Enable
+const int DI_PIN=10;  //Data In
+const int OE_PIN=9;  //Output Enable
 
 void setup() {
   // put your setup code here, to run once:
@@ -21,7 +21,7 @@ void loop() {
   byte data0=0b11111111;
   byte data1=0b11111111;
   byte data2=0b11111111;
-  byte data3=0b10111111;
+  byte data3=0b11111111;
 
   digitalWrite(LE_PIN, LOW);
   shiftOut(DI_PIN, CK_PIN, LSBFIRST, data0);
@@ -30,5 +30,6 @@ void loop() {
   shiftOut(DI_PIN, CK_PIN, LSBFIRST, data3);
   digitalWrite(LE_PIN, HIGH);
 
-  delay(1000);
+  delay(10
+  );
 }
