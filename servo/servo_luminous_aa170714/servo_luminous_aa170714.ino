@@ -45,16 +45,16 @@ const int SV_V = 2;
 
 void servoMove(int js_h_val, int js_v_val){
   /* 調整用数値 */
-  const int SV_V_L=8196;
-  const int SV_V_N=7812;
-  const int SV_V_R=7438;
-  const int SV_H_U=7114;
-  const int SV_H_N=7612;
-  const int SV_H_D=8092;
+  const int SV_V_L=8187;
+  const int SV_V_N=7735;
+  const int SV_V_R=7399;
+  const int SV_H_U=7286;
+  const int SV_H_N=7632;
+  const int SV_H_D=8268;
 
-  const int JS_V_L=800;
-  const int JS_V_N=455;
-  const int JS_V_R=210;
+  const int JS_V_L=874;
+  const int JS_V_N=550;
+  const int JS_V_R=187;
   const int JS_H_U=900;
   const int JS_H_N=455;
   const int JS_H_D=230;
@@ -89,9 +89,9 @@ void servoMove(int js_h_val, int js_v_val){
     if(js_h_val<=JS_H_N+DZ && js_h_val>=JS_H_N-DZ){
       sv_pos_H=SV_H_N;
     }else if(js_h_val>JS_H_N+DZ && js_h_val <= JS_H_U-PAD){
-      sv_pos_H = map(js_h_val,JS_H_N+DZ,JS_H_U,SV_H_N,SV_H_U);
+      sv_pos_H = map(js_h_val,JS_H_N+DZ,JS_H_U-PAD,SV_H_N,SV_H_U);
     }else if(js_h_val<JS_H_N-DZ && js_h_val >= JS_H_D+PAD){
-      sv_pos_H = map(js_h_val,JS_H_D,JS_H_N-DZ,SV_H_D,SV_H_N);
+      sv_pos_H = map(js_h_val,JS_H_D+PAD,JS_H_N-DZ,SV_H_D,SV_H_N);
     }else if(js_h_val>JS_H_U-PAD){
       sv_pos_H =SV_H_U; 
     }else if(js_h_val<JS_H_D+PAD){
@@ -101,9 +101,9 @@ void servoMove(int js_h_val, int js_v_val){
     if(js_v_val<=JS_V_N+DZ && js_v_val>=JS_V_N-DZ){
       sv_pos_V=SV_V_N;
     }else if(js_v_val>JS_V_N+DZ && js_v_val <= JS_V_L-PAD){
-      sv_pos_V = map(js_v_val,JS_V_N+DZ,JS_V_L,SV_V_N,SV_V_L);
+      sv_pos_V = map(js_v_val,JS_V_N+DZ,JS_V_L-PAD,SV_V_N,SV_V_L);
     }else if(js_v_val<JS_V_N-DZ && js_v_val >= JS_V_R+PAD){
-      sv_pos_V = map(js_v_val,JS_V_R,JS_V_N-DZ,SV_V_R,SV_V_N);
+      sv_pos_V = map(js_v_val,JS_V_R+PAD,JS_V_N-DZ,SV_V_R,SV_V_N);
     }else if(js_v_val>JS_V_L-PAD){
       sv_pos_V =SV_V_L; 
     }else if(js_v_val<JS_V_R+PAD){
@@ -119,10 +119,25 @@ void servoMove(int js_h_val, int js_v_val){
   Serial.print(",");
   Serial.print(sv_pos_V);
   Serial.print(",");
+  
+  Serial3.print(js_h_val);
+  Serial3.print(",");
+  Serial3.print(sv_pos_H);
+  Serial3.print(",");
+  Serial3.print(js_v_val);
+  Serial3.print(",");
+  Serial3.print(sv_pos_V);
+  Serial3.print(",");
 /* 変換後の値をサーボに送信する */
-  Serial.print(ics_set_pos(1,sv_pos_H,SV_H));
+  String sv_h_return, sv_v_return;
+  sv_h_return=ics_set_pos(1,sv_pos_H,SV_H);
+  sv_v_return=ics_set_pos(2,sv_pos_V,SV_V);
+  Serial.print(sv_h_return);
   Serial.print(",");
-  Serial.println(ics_set_pos(2,sv_pos_V,SV_V));
+  Serial.println(sv_v_return);
+  Serial3.print(sv_h_return);
+  Serial3.print(",");
+  Serial3.println(sv_v_return);
 }
 
 
@@ -289,15 +304,17 @@ void setup (){
   //トライステートバッファ制御用ピン
   pinMode(EN_RX_H,OUTPUT);
   pinMode(EN_RX_V,OUTPUT);
-  
+
+  //LOG
+  Serial3.begin(9600);
   Serial.begin(9600);
   Serial.print ("Initializing...\n");
+  Serial3.print ("Initializing...\n");
 
   //SV
   Serial1.begin(115200, SERIAL_8E1);  //UARTの通信設定
   Serial2.begin(115200, SERIAL_8E1);
-  //LOG
-  Serial3.begin(9600);
+
 
 
 
@@ -317,6 +334,7 @@ void setup (){
   delay(1000);  
 
   Serial.print ("Finished setup\n");
+  Serial3.print ("Finished setup\n");
 }
 
 void loop (){
@@ -327,7 +345,7 @@ void loop (){
   //Serial.println(ics_set_pos(1,8092,SV_H));
   //Serial.println(ics_set_pos(2,6699,SV_V));
   //delay(500);
-  /*
+/*
   for(int i=0;i<=3;i++){
     Serial.print(analogRead(i));
     Serial.print(",");
@@ -335,7 +353,8 @@ void loop (){
   Serial.print(ics_set_pos(1,0,SV_H));
   Serial.print(",");
   Serial.println(ics_set_pos(2,0,SV_V));
-
+*/
+Serial.println(ics_set_pos(1,7632,SV_H));
 /*
   for(int i=0;i<=3;i++){
     Serial.print(analogRead(i));
@@ -343,6 +362,6 @@ void loop (){
   }
   Serial.print("\n");
   */
-  servoMove(analogRead(1),analogRead(2));
+  //servoMove(analogRead(1),analogRead(2));
   
 }
