@@ -42,22 +42,26 @@ const int EN_RX_V=3;
 const int SV_H = 1;
 const int SV_V = 2;
 
+unsigned long t0=0;
 
-void servoMove(int js_h_val, int js_v_val){
   /* 調整用数値 */
   const int SV_V_L=8187;
   const int SV_V_N=7735;
   const int SV_V_R=7399;
-  const int SV_H_U=7286;
-  const int SV_H_N=7632;
-  const int SV_H_D=8268;
+  const int SV_H_U=7228;
+  const int SV_H_N=7642;
+  const int SV_H_D=8170;
 
   const int JS_V_L=874;
   const int JS_V_N=550;
-  const int JS_V_R=187;
+  const int JS_V_R=230;
   const int JS_H_U=900;
-  const int JS_H_N=455;
+  const int JS_H_N=550;
   const int JS_H_D=230;
+
+
+void servoMove(int js_h_val, int js_v_val){
+
   
    // 3500...7500...11500
    // -135...0...   135    [deg]
@@ -84,7 +88,7 @@ void servoMove(int js_h_val, int js_v_val){
 /* JSのDZ対策　開始12*/
     const int DZ = 100;
 
-    const int PAD = 100;
+    const int PAD =100;
   
     if(js_h_val<=JS_H_N+DZ && js_h_val>=JS_H_N-DZ){
       sv_pos_H=SV_H_N;
@@ -119,15 +123,7 @@ void servoMove(int js_h_val, int js_v_val){
   Serial.print(",");
   Serial.print(sv_pos_V);
   Serial.print(",");
-  
-  Serial3.print(js_h_val);
-  Serial3.print(",");
-  Serial3.print(sv_pos_H);
-  Serial3.print(",");
-  Serial3.print(js_v_val);
-  Serial3.print(",");
-  Serial3.print(sv_pos_V);
-  Serial3.print(",");
+
 /* 変換後の値をサーボに送信する */
   String sv_h_return, sv_v_return;
   sv_h_return=ics_set_pos(1,sv_pos_H,SV_H);
@@ -135,9 +131,24 @@ void servoMove(int js_h_val, int js_v_val){
   Serial.print(sv_h_return);
   Serial.print(",");
   Serial.println(sv_v_return);
-  Serial3.print(sv_h_return);
-  Serial3.print(",");
-  Serial3.println(sv_v_return);
+
+  
+  if(millis()-t0>500){
+//      Serial3.print(js_h_val);
+//      Serial3.print(",");
+      Serial3.print(sv_pos_H);
+      Serial3.print(",");
+//      Serial3.print(js_v_val);
+//      Serial3.print(",");
+      Serial3.print(sv_pos_V);
+      Serial3.print(",");
+      Serial3.print(sv_h_return);
+      Serial3.print(",");
+      Serial3.println(sv_v_return);
+
+      t0=millis();
+  }
+
 }
 
 
@@ -337,24 +348,24 @@ void setup (){
   Serial3.print ("Finished setup\n");
 }
 
-void loop (){
-  
+void loop (){  
   //Serial.println(ics_set_pos(1,8092,SV_H));
   //Serial.println(ics_set_pos(2,6225,SV_V));
   //delay(500);
   //Serial.println(ics_set_pos(1,8092,SV_H));
   //Serial.println(ics_set_pos(2,6699,SV_V));
   //delay(500);
-/*
-  for(int i=0;i<=3;i++){
-    Serial.print(analogRead(i));
-    Serial.print(",");
-  }
-  Serial.print(ics_set_pos(1,0,SV_H));
-  Serial.print(",");
-  Serial.println(ics_set_pos(2,0,SV_V));
-*/
-Serial.println(ics_set_pos(1,7632,SV_H));
+  
+//  for(int i=0;i<=3;i++){
+//    Serial.print(analogRead(i));
+//    Serial.print(",");
+//  }
+  
+ // Serial.println(ics_set_pos(1,0,SV_H));
+//  Serial.print(",");
+//  Serial.println(ics_set_pos(2,0,SV_V));
+
+//Serial.println(ics_set_pos(1,SV_H_N,SV_H));
 /*
   for(int i=0;i<=3;i++){
     Serial.print(analogRead(i));
@@ -362,6 +373,9 @@ Serial.println(ics_set_pos(1,7632,SV_H));
   }
   Serial.print("\n");
   */
-  //servoMove(analogRead(1),analogRead(2));
-  
+//
+//  Serial.print(analogRead(1));
+//  Serial.print(',');
+//  Serial.println(analogRead(2));
+  servoMove(analogRead(1),analogRead(2));
 }
