@@ -39,6 +39,7 @@ void loop() {
   float hight;
   hight=analogRead(0)*2*0.01; //xの単位を[m]に変換
   updateDisplay(hight);
+  Serial.println(hight);
   /* 高度計　終了 */
 
   //Serial.println(millis()-ct);
@@ -72,7 +73,7 @@ void loop() {
       }
 
       file.write(s1);
-      Serial.write(s1);
+      //Serial.write(s1);
       
       s1a--;
     }

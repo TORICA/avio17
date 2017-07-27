@@ -17,7 +17,7 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  while(millis()-t0<1000){
+  while(millis()-t0<100){
       p=(analogRead(0)-pi)*pk;
       y=(analogRead(1)-yi)*yk;
       t=(analogRead(7)-ti)*tk;
@@ -29,9 +29,9 @@ void loop() {
   
   Serial.print(myLPF(p));
   Serial.print(',');
-  Serial.print(myLPF(y));
+  Serial.print(myLPF2(y));
   Serial.print(',');
-  Serial.println(myLPF(t));
+  Serial.println(myLPF3(t));
 }
 const int samplingnum=40;
 double vals[samplingnum];
